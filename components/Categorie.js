@@ -6,10 +6,10 @@ import Movie from "./Movie";
 // import "antd/dist/antd.css";
 import styles from "../styles/Home.module.css";
 
-function Home() {
+function Categorie(props) {
   const [listMovies, setlistMovies] = useState([]);
   const [likedMovies, setLikedMovies] = useState([]);
-
+  const genreId = props.catData.id;
   // Liked movies (inverse data flow)
   const updateLikedMovies = (movieTitle) => {
     if (likedMovies.find((movie) => movie === movieTitle)) {
@@ -35,14 +35,17 @@ function Home() {
   // Movies list
   useEffect(() => {
     // fetch('https://mymoviz-backend-juliengdrd.vercel.app/movies')
-    fetch("http://localhost:3000/movies")
+    fetch("http://localhost:3000/byCat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ genreId: genreId }),
+    })
       .then((response) => response.json())
       .then((data) => {
+        console.log("byGenreFront:", data.movies)
         setlistMovies(data.movies);
-        console.log("log brut :", data.movies.results);
-        console.log("listmovie:", listMovies);
       });
-  }, []);
+  }, [props]);
 
   const movies = listMovies.map((data, i) => {
     const isLiked = likedMovies.some((movie) => movie === data.title);
@@ -63,11 +66,12 @@ function Home() {
   return (
     <>
       <main className={styles.main}>
-        <h2 className={styles.title}>Last releases</h2>
+        <h2 className={styles.title}>{props.catData.name}</h2>
+
         <div className={styles.moviesContainer}>{movies}</div>
       </main>
     </>
   );
 }
 
-export default Home;
+export default Categorie;

@@ -1,0 +1,108 @@
+.logocontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+  cursor: pointer;
+}
+.logo {
+  margin-left: 20px;
+  width: 150px;
+}
+.header {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  font-family: "EmberRg", sans-serif;
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+}
+.navBarHight {
+  position: relative;
+  z-index: 100;
+  margin-top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 60px;
+  background-color: #00050d;
+  color: white;
+  padding: 0px 20px 0px 20px;
+  transition: 0.5s ease-in-out;
+}
+.navBarLow {
+  position: relative;
+  top: 20px;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 60px;
+  background-color: black;
+  color: white;
+  padding: 0px 20px 0px 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px 2px rgba(0, 5, 13, 0.5);
+  transition: 0.5s ease-in-out;
+}
+
+.tabContainer {
+  display: flex;
+}
+.tab {
+  margin: 0 10px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+  padding: 0px 20px;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.tab:hover {
+  background-color: #191e25;
+}
+.tab:hover > .tabIcon {
+  transform: rotate(180deg);
+  transition: 0.2s ease-in-out;
+}
+.tabIcon {
+  margin-left: 5px;
+}
+.tab:hover > .tabModal {
+  display: flex;
+}
+.tabModal {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #191e25;
+  padding: 0 10% 0 10%;
+}
+.tabModal ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding-inline-start: unset;
+  cursor: unset;
+}
+.tabModal li {
+  list-style: none;
+  width: 15%;
+  min-width: 170px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.tabModal li:hover {
+  background-color: white;
+  color: #191e25;
+}

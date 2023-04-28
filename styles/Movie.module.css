@@ -1,33 +1,49 @@
 .card {
+	position: relative;
 	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	width: 220px;
-	margin: 20px;
+    flex-direction: column;
+    width: 220px;
+	margin : 20px 20px 0;
+	cursor: pointer;
+	transition: 0.5s ease-in-out;
+}
+.card:hover{
+	transform: scale(1.2);
+	z-index: 5;
+	box-shadow: 0 4px 8px 2px rgba(0,5,13,.5);
+
 }
 
 .image {
-	width: 220px;
+	width: 100%;
 	border-radius: 10px 10px 0px 0px;
 }
 
 .textContainer {
-	display: flex;
-	flex-direction: column;
-	height: 230px;
-	margin: 10px 0px 10px 00px;
+	display: none;
+	transition: 0.5s ease-in-out;
 }
+.card:hover>.textContainer{
+	display: flex;
+	position: absolute;
+	z-index: 100;
+	top: 100%;
+	left: 100;
+	width: 100%;
+	flex-direction: column;
+	background-color: #00050d;
+	/* height: fit-content; */
+	transition: 0.5s ease-in-out;
+	}
 
 .name {
-	font-weight: 600;
+	/* font-weight: 600; */
 }
 
 .description {
 	font-weight: 300;
     font-size: 14px;
-    height: 13vh;
     text-align: justify;
-    overflow: overlay;
 }
 
 
