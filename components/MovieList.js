@@ -3,10 +3,9 @@ import { Popover, Button } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import Movie from "./Movie";
-// import "antd/dist/antd.css";
 import styles from "../styles/Home.module.css";
 
-function Home() {
+export default function MovieList(props) {
   const [listMovies, setlistMovies] = useState([]);
   const [likedMovies, setLikedMovies] = useState([]);
 
@@ -32,17 +31,29 @@ function Home() {
     );
   });
 
-  // Movies list
+  // Fetching Movies list
   useEffect(() => {
-    // fetch('https://mymoviz-backend-juliengdrd.vercel.app/movies')
-    fetch("http://localhost:3000/movies")
+    let urlToFetch;
+    if (props.isHome === true) {
+      urlToFetch = {
+        path: "http://localhost:3000/movies",
+      };
+    } else {
+      urlToFetch = {
+        path: "http://localhost:3000/byCat",
+        reqObj: {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ genreId: props.catData.id }),
+        },
+      };
+    }
+    fetch(urlToFetch.path, urlToFetch.reqObj)
       .then((response) => response.json())
       .then((data) => {
         setlistMovies(data.movies);
-        console.log("log brut :", data.movies.results);
-        console.log("listmovie:", listMovies);
       });
-  }, []);
+  }, [props]);
 
   const movies = listMovies.map((data, i) => {
     const isLiked = likedMovies.some((movie) => movie === data.title);
@@ -63,11 +74,10 @@ function Home() {
   return (
     <>
       <main className={styles.main}>
-        <h2 className={styles.title}>Last releases</h2>
+        <h2 className={styles.title}>{props.pageTitle}</h2>
+
         <div className={styles.moviesContainer}>{movies}</div>
       </main>
     </>
   );
 }
-
-export default Home;

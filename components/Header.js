@@ -32,29 +32,34 @@ export default function Header() {
   }, []);
 
   const genres = genreList.map((data, i) => {
+    const nameWithoutSpaces = data.name.replace(/\s+/g, "");
+    const as = `/categories/${nameWithoutSpaces}`;
+    const href = {
+      pathname: "/categories/[name]",
+      query: { name: data.name, id: data.id },
+    };
     return (
-     <Link href={{ pathname: '/categories/[name]', query: { name: data.name, id: data.id } }} key={data.id}>
-        <li onClick={() => handleCategorie(data)}>{data.name}</li>
+      <Link href={href} as={as} key={data.id}>
+        <li>{data.name}</li>
       </Link>
     );
   });
 
-  const handleCategorie = (categorie) => {
-    console.log("handleCat", categorie);
-  };
   return (
     <>
-      <div className={styles.header}>
-        <div
+      <header className={styles.header}>
+        <nav
           className={
             scrollPosition === 0 ? styles.navBarHight : styles.navBarLow
           }
         >
-            <Link href={'/'}>
-          <div className={styles.logocontainer}>CinemaFlow</div>
-            </Link>
+          <Link href={"/"}>
+            <div className={styles.logocontainer}>CinemaFlow</div>
+          </Link>
           <div className={styles.tabContainer}>
-            <div className={styles.tab}>Last Releases</div>
+            <Link href={"/"}>
+              <div className={styles.tab}>Last Releases</div>
+            </Link>
             <div className={styles.tab}>
               Categories
               <FontAwesomeIcon icon={faAngleDown} className={styles.tabIcon} />
@@ -74,8 +79,8 @@ export default function Header() {
           >
             <Button>♥ {likedMovies.length} movie(s)</Button>
           </Popover> */}
-        </div>
-      </div>
+        </nav>
+      </header>
     </>
   );
 }

@@ -1,12 +1,12 @@
-import Categories from "../../components/Categorie"
+import MovieList from "../../components/MovieList"
 import { useRouter } from 'next/router';
 
-export default function CatName() {
+export default function Categories() {
     const router = useRouter();
     const catData = router.query
     return(
         <>
-       <Categories catData={catData}/>
+       <MovieList catData={catData} isHome={false} pageTitle={catData.name}/>
         </>
     )
 }

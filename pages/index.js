@@ -1,7 +1,12 @@
-import Home from '../components/Home';
+
+import MovieList from '../components/MovieList';
+import { useRouter } from 'next/router';
+
 
 function Index() {
-  return <Home />;
+  const router = useRouter();
+  
+  return <MovieList isHome={true} pageTitle={'Last Releases'}/>;
 }
 
 export default Index;
