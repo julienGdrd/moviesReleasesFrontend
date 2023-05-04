@@ -1,12 +1,17 @@
-import MovieList from "../../components/MovieList"
-import { useRouter } from 'next/router';
+import MovieList from "../../components/MovieList";
+import { useRouter } from "next/router";
 
 export default function Categories() {
-    const router = useRouter();
-    const catData = router.query
-    return(
-        <>
-       <MovieList catData={catData} isHome={false} pageTitle={catData.name}/>
-        </>
-    )
+  const router = useRouter();
+  const catData = router.query;
+  return (
+    <>
+      <MovieList
+        needToFetch={true}
+        catData={catData}
+        isHome={false}
+        pageTitle={catData.name}
+      />
+    </>
+  );
 }

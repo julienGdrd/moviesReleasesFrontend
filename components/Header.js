@@ -5,7 +5,6 @@ import styles from "../styles/Header.module.css";
 import Link from "next/link";
 export default function Header() {
   const [genreList, setGenreList] = useState([]);
-  const [likedMovies, setLikedMovies] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
@@ -68,7 +67,15 @@ export default function Header() {
               </div>
             </div>
             <div className={styles.tab}>Best rated</div>
-            <div className={styles.tab}>Liked movies</div>
+            <Link
+              href={{
+                pathname: "/likedMovies",
+                query: { name: "Liked movies" },
+              }}
+              as={"/likedMovies"}
+            >
+              <div className={styles.tab}>Liked movies</div>
+            </Link>
             <div className={styles.tab}>Wish list</div>
           </div>
           {/* <Popover

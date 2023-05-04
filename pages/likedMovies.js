@@ -1,12 +1,10 @@
-
 import MovieList from '../components/MovieList';
 import { useRouter } from 'next/router';
 
 
-function Index() {
+export default function LikedMovies() {
   const router = useRouter();
   
-  return <MovieList isHome={true} needToFetch={true} pageTitle={'Last Releases'}/>;
+  return <MovieList isHome={false} pageTitle={'Liked movies'}/>;
 }
 
-export default Index;
