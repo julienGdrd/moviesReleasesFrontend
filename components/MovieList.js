@@ -1,7 +1,4 @@
 import { useState, useEffect } from "react";
-import { Popover, Button } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import Movie from "./Movie";
 import styles from "../styles/Home.module.css";
 import { useSelector } from "react-redux";
