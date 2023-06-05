@@ -4,8 +4,9 @@ import Header from "../components/Header";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import likedMovies from "../reducer/likedMovies";
+import wishList from "../reducer/wishList";
 const store = configureStore({
-  reducer: { likedMovies },
+  reducer: { likedMovies, wishList },
 });
 function App({ Component, pageProps }) {
   return (

@@ -3,10 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/Header.module.css";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 export default function Header() {
   const [genreList, setGenreList] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
 
+  const likedList = useSelector((state) => state.likedMovies.value);
+  const likedCounter = likedList.length;
+  const wishList = useSelector((state) => state.wishList.value);
+  const wishCounter = wishList.length;
   useEffect(() => {
     const handleScroll = () => {
       const position = window.pageYOffset;
@@ -74,18 +79,24 @@ export default function Header() {
               }}
               as={"/likedMovies"}
             >
-              <div className={styles.tab}>Liked movies</div>
+              <div className={styles.tab}>
+                Liked movies
+                <span className={styles.counter} style={{ color: "#e74c3c" }}>
+                  {likedCounter > 0 && likedCounter}
+                </span>
+              </div>
             </Link>
-            <div className={styles.tab}>Wish list</div>
+            <Link
+              href={{ pathname: "/wishList", query: { name: "Wish list" } }}
+              as={"/wishList"}
+            >
+              <div className={styles.tab}>Wish list
+              <span className={styles.counter} style={{color: '#1a98ff'}}>
+                {wishCounter > 0 && wishCounter}
+              </span>
+              </div>
+            </Link>
           </div>
-          {/* <Popover
-            title="Liked movies"
-            content={popoverContent}
-            className={styles.popover}
-            trigger="click"
-          >
-            <Button>♥ {likedMovies.length} movie(s)</Button>
-          </Popover> */}
         </nav>
       </header>
     </>

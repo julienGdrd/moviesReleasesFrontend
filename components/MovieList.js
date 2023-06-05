@@ -5,12 +5,13 @@ import { useSelector } from "react-redux";
 
 export default function MovieList(props) {
   const [listMovies, setlistMovies] = useState([]);
-const likedMovies = useSelector((state) => state.likedMovies.value)
-console.log('likes:', likedMovies)
-console.log('list', listMovies)
-  
+  const likedMovies = useSelector((state) => state.likedMovies.value);
+  const wishList = useSelector((state) => state.wishList.value);
+  // console.log("likes:", likedMovies);
+  // console.log("list", listMovies);
+
   useEffect(() => {
-    if(props.needToFetch){
+    if (props.needToFetch) {
       // Fetching Movies list
       let urlToFetch;
       if (props.isHome === true) {
@@ -32,18 +33,15 @@ console.log('list', listMovies)
         .then((data) => {
           setlistMovies(data.movies);
         });
-    }else if(props.pageTitle==='Liked movies'){
-      setlistMovies(likedMovies)
+    } else if (props.pageTitle === "Liked movies") {
+      setlistMovies(likedMovies);
+    }else if(props.pageTitle === "Wish list"){
+      setlistMovies(wishList);
     }
-  }, [props, likedMovies]);
+  }, [props, likedMovies, wishList]);
 
   const movies = listMovies.map((data, i) => {
-    return (
-      <Movie
-        key={i}
-        movieData={data}
-      />
-    );
+    return <Movie key={i} movieData={data} />;
   });
 
   return (
@@ -51,6 +49,7 @@ console.log('list', listMovies)
       <main className={styles.main}>
         <h2 className={styles.title}>{props.pageTitle}</h2>
         <div className={styles.moviesContainer}>{movies}</div>
+        {listMovies.length === 0 && "No  movies"}
       </main>
     </>
   );

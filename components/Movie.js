@@ -1,18 +1,33 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faStar, faVideo } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faAngleUp,
+  faCheck,
+  faCircleCheck,
+  faHeart,
+  faPlus,
+  faStar,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/Movie.module.css";
 
 import { addLikedMovie } from "../reducer/likedMovies";
+import { toggleWishList } from "../reducer/wishList";
 import { useDispatch, useSelector } from "react-redux";
 
 function Movie(props) {
   const dispatch = useDispatch();
-  const [watchCount, setWatchCount] = useState(0);
+  const [showSynopsis, setShowSynopsis] = useState(false);
   const [personalNote, setPersonalNote] = useState(0);
 
   const isLiked = useSelector((state) =>
-    state.likedMovies.value.some((movie) => movie.title === props.movieData.title)
+    state.likedMovies.value.some(
+      (movie) => movie.title === props.movieData.title
+    )
+  );
+  const isInWishList = useSelector((state) =>
+    state.wishList.value.some((movie) => movie.title === props.movieData.title)
   );
 
   console.log("isLiked:", isLiked);
@@ -26,13 +41,13 @@ function Movie(props) {
     stars.push(<FontAwesomeIcon key={i} icon={faStar} style={style} />);
   }
 
-  // Watch movie
-  const handleWatchMovie = () => {
-    setWatchCount(watchCount + 1);
+  // Wish movie
+  const handleWishList = () => {
+    dispatch(toggleWishList(props.movieData));
   };
-  let videoIconStyle = { cursor: "pointer" };
-  if (watchCount > 0) {
-    videoIconStyle = { color: "#e74c3c", cursor: "pointer" };
+  let wishIconName = faPlus;
+  if (isInWishList) {
+    wishIconName = faCircleCheck;
   }
 
   // Like movie
@@ -61,43 +76,58 @@ function Movie(props) {
       />
     );
   }
-  console.log('movieData :' ,props.movieData);
+
+  const handleMouseLeave = () => {
+    setShowSynopsis(false);
+  };
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onMouseLeave={handleMouseLeave}>
       <img
         className={styles.image}
         src={`https://image.tmdb.org/t/p/w500${props.movieData.poster_path}`}
         alt={props.movieData.title}
       />
       <div className={styles.textContainer}>
-        <div>
-          <h4 className={styles.name}>{props.movieData.original_title}</h4>
-          <p className={styles.description}>{props.movieData.overview}</p>
-        </div>
-        <div className={styles.iconContainer}>
-          <span className={styles.vote}>
-            {stars} ({props.movieData.vote_count})
-          </span>
-          <span>
+        <h4 className={styles.name}>{props.movieData.original_title}</h4>
+        <div className={styles.btnContainer}>
+          {/*  */}
+          {/* <span>
             {personalStars} ({personalNote})
-          </span>
-          <span>
+          </span> */}
+          <div
+            className={styles.btn}
+            onClick={() => setShowSynopsis(!showSynopsis)}
+            title={showSynopsis ? "Close synopsis" : "Show synopsis"}
+          >
+            <FontAwesomeIcon icon={!showSynopsis ? faAngleDown : faAngleUp} />
+          </div>
+          <div
+            className={styles.btn}
+            onClick={() => handleWishList()}
+            title={isInWishList ? "Remove from wish list" : "Add to wish list"}
+          >
             <FontAwesomeIcon
-              icon={faVideo}
-              onClick={() => handleWatchMovie()}
-              style={videoIconStyle}
-              className="watch"
-            />{" "}
-            ({watchCount})
-          </span>
-          <span>
-            <FontAwesomeIcon
-              icon={faHeart}
-              onClick={() => handleLikeMovie()}
-              style={heartIconStyle}
-              className="like"
+              icon={wishIconName}
+              style={isInWishList ? { color: "#1a98ff" } : {}}
             />
-          </span>
+          </div>
+          <div
+            className={styles.btn}
+            onClick={() => handleLikeMovie()}
+            title={isLiked ? "Unlike" : "Like"}
+          >
+            <FontAwesomeIcon icon={faHeart} style={heartIconStyle} />
+          </div>
+
+          {showSynopsis && (
+            <div className={styles.modalSynopsis}>
+              <p className={styles.description}>{props.movieData.overview}</p>
+              <span className={styles.vote}>
+                {stars} ({props.movieData.vote_count})
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>
