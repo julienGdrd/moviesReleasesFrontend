@@ -30,7 +30,6 @@ function Movie(props) {
     state.wishList.value.some((movie) => movie.title === props.movieData.title)
   );
 
-  console.log("isLiked:", isLiked);
   // Average evaluation
   const stars = [];
   for (let i = 0; i < 10; i++) {

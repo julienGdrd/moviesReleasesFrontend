@@ -1,17 +1,15 @@
 import MovieList from "../components/MovieList";
 import { useRouter } from "next/router";
 
-function Index() {
+export default function ComingSoon() {
   const router = useRouter();
 
   return (
     <MovieList
-      pageTitle={"Last Releases"}
+      pageTitle={"Coming Soon"}
       urlToFetch={{
-        path: "http://localhost:3000/movies",
+        path: "http://localhost:3000/upcoming",
       }}
     />
   );
 }
-
-export default Index;

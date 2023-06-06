@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/Header.module.css";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 export default function Header() {
   const [genreList, setGenreList] = useState([]);
@@ -12,6 +13,11 @@ export default function Header() {
   const likedCounter = likedList.length;
   const wishList = useSelector((state) => state.wishList.value);
   const wishCounter = wishList.length;
+  const router = useRouter();
+  const pageName = router.pathname;
+  console.log("pageName", pageName);
+
+  const activeTabStyle = { color: "white", borderBottom: "2px solid white" };
   useEffect(() => {
     const handleScroll = () => {
       const position = window.pageYOffset;
@@ -62,16 +68,31 @@ export default function Header() {
           </Link>
           <div className={styles.tabContainer}>
             <Link href={"/"}>
-              <div className={styles.tab}>Last Releases</div>
+              <div
+                className={styles.tab}
+                style={pageName === "/" ? activeTabStyle : {}}
+              >
+                Last Releases
+              </div>
             </Link>
-            <div className={styles.tab}>
+            <Link
+              href={{ pathname: "/comingSoon", query: { name: "Coming Soon" } }}
+              as={"/ComingSoon"}
+            >
+              <div className={styles.tab}
+               style={pageName === "/comingSoon" ? activeTabStyle : {}}
+              >Coming Soon</div>
+            </Link>
+            <div className={styles.tab}
+             style={pageName === "/categories/[name]" ? activeTabStyle : {}}
+            >
               Categories
               <FontAwesomeIcon icon={faAngleDown} className={styles.tabIcon} />
               <div className={styles.tabModal}>
                 <ul>{genres}</ul>
               </div>
             </div>
-            <div className={styles.tab}>Best rated</div>
+
             <Link
               href={{
                 pathname: "/likedMovies",
@@ -79,7 +100,10 @@ export default function Header() {
               }}
               as={"/likedMovies"}
             >
-              <div className={styles.tab}>
+              <div className={styles.tab}
+               style={pageName === "/likedMovies" ? activeTabStyle : {}}
+              
+              >
                 Liked movies
                 <span className={styles.counter} style={{ color: "#e74c3c" }}>
                   {likedCounter > 0 && likedCounter}
@@ -90,10 +114,13 @@ export default function Header() {
               href={{ pathname: "/wishList", query: { name: "Wish list" } }}
               as={"/wishList"}
             >
-              <div className={styles.tab}>Wish list
-              <span className={styles.counter} style={{color: '#1a98ff'}}>
-                {wishCounter > 0 && wishCounter}
-              </span>
+              <div className={styles.tab}
+               style={pageName === "/wishList" ? activeTabStyle : {}}
+              >
+                Wish list
+                <span className={styles.counter} style={{ color: "#1a98ff" }}>
+                  {wishCounter > 0 && wishCounter}
+                </span>
               </div>
             </Link>
           </div>

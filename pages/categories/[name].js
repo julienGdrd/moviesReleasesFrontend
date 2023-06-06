@@ -7,10 +7,16 @@ export default function Categories() {
   return (
     <>
       <MovieList
-        needToFetch={true}
         catData={catData}
-        isHome={false}
         pageTitle={catData.name}
+        urlToFetch={{
+          path: "http://localhost:3000/byCat",
+          reqObj: {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ genreId: catData.id }),
+          }
+        }}
       />
     </>
   );

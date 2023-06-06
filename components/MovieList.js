@@ -7,35 +7,19 @@ export default function MovieList(props) {
   const [listMovies, setlistMovies] = useState([]);
   const likedMovies = useSelector((state) => state.likedMovies.value);
   const wishList = useSelector((state) => state.wishList.value);
-  // console.log("likes:", likedMovies);
-  // console.log("list", listMovies);
+
+  console.log("propsRequest : ", props.urlToFetch);
 
   useEffect(() => {
-    if (props.needToFetch) {
-      // Fetching Movies list
-      let urlToFetch;
-      if (props.isHome === true) {
-        urlToFetch = {
-          path: "http://localhost:3000/movies",
-        };
-      } else {
-        urlToFetch = {
-          path: "http://localhost:3000/byCat",
-          reqObj: {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ genreId: props.catData.id }),
-          },
-        };
-      }
-      fetch(urlToFetch.path, urlToFetch.reqObj)
+    if (props.urlToFetch) {
+      fetch(props.urlToFetch.path, props.urlToFetch.reqObj)
         .then((response) => response.json())
         .then((data) => {
           setlistMovies(data.movies);
         });
     } else if (props.pageTitle === "Liked movies") {
       setlistMovies(likedMovies);
-    }else if(props.pageTitle === "Wish list"){
+    } else if (props.pageTitle === "Wish list") {
       setlistMovies(wishList);
     }
   }, [props, likedMovies, wishList]);
