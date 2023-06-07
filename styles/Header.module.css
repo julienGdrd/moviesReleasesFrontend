@@ -55,6 +55,7 @@
 
 .tabContainer {
   display: flex;
+  position: relative;
 }
 .tab {
   color: #aaa;
@@ -82,6 +83,68 @@
 }
 .tab:hover > .tabModal {
   display: flex;
+}
+.searchIcon{
+  font-size: 25px;
+}
+.modalSearch{
+  background-color: #191e25;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modalSearch form{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.searchBar{
+  display: flex;
+  align-items: center;
+  width: 95%;
+  height: 60%;
+  border-radius: 20px;
+  background-color: #33373d;
+  border: 2px solid white;
+  padding: 0 20px;
+}
+.searchBarIcon{
+  padding: 0 20px 0 0;
+  font-size: 25px;
+  color: white;
+}
+.searchInput{
+  background-color: transparent;
+  border: none;
+  height: 100%;
+  width: 100%;
+  font-family: "EmberRg", sans-serif;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 1.3px;
+}
+.searchInput:focus-visible{
+  outline: none;
+}
+.deleteBtn{
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+  padding: 5px 10px;
+  border-radius: 10px;
+  letter-spacing: 1px;
+}
+.deleteBtn:hover{
+  background-color: white;
+  color: black;
 }
 .tabModal {
   display: none;

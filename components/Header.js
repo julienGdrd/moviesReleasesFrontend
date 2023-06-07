@@ -1,23 +1,31 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faCircleXmark,
+  faMagnifyingGlass,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/Header.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+
 export default function Header() {
   const [genreList, setGenreList] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
+
+  const [showModalSearch, setShowModalSearch] = useState(false);
 
   const likedList = useSelector((state) => state.likedMovies.value);
   const likedCounter = likedList.length;
   const wishList = useSelector((state) => state.wishList.value);
   const wishCounter = wishList.length;
+
   const router = useRouter();
   const pageName = router.pathname;
-  console.log("pageName", pageName);
-
   const activeTabStyle = { color: "white", borderBottom: "2px solid white" };
+
   useEffect(() => {
     const handleScroll = () => {
       const position = window.pageYOffset;
@@ -31,6 +39,9 @@ export default function Header() {
     };
   }, []);
 
+  const handleShowModalSearch = () => {
+      setShowModalSearch(!showModalSearch)
+  };
   // Genres list
   useEffect(() => {
     fetch("http://localhost:3000/genre")
@@ -79,12 +90,16 @@ export default function Header() {
               href={{ pathname: "/comingSoon", query: { name: "Coming Soon" } }}
               as={"/ComingSoon"}
             >
-              <div className={styles.tab}
-               style={pageName === "/comingSoon" ? activeTabStyle : {}}
-              >Coming Soon</div>
+              <div
+                className={styles.tab}
+                style={pageName === "/comingSoon" ? activeTabStyle : {}}
+              >
+                Coming Soon
+              </div>
             </Link>
-            <div className={styles.tab}
-             style={pageName === "/categories/[name]" ? activeTabStyle : {}}
+            <div
+              className={styles.tab}
+              style={pageName === "/categories/[name]" ? activeTabStyle : {}}
             >
               Categories
               <FontAwesomeIcon icon={faAngleDown} className={styles.tabIcon} />
@@ -100,9 +115,9 @@ export default function Header() {
               }}
               as={"/likedMovies"}
             >
-              <div className={styles.tab}
-               style={pageName === "/likedMovies" ? activeTabStyle : {}}
-              
+              <div
+                className={styles.tab}
+                style={pageName === "/likedMovies" ? activeTabStyle : {}}
               >
                 Liked movies
                 <span className={styles.counter} style={{ color: "#e74c3c" }}>
@@ -114,8 +129,9 @@ export default function Header() {
               href={{ pathname: "/wishList", query: { name: "Wish list" } }}
               as={"/wishList"}
             >
-              <div className={styles.tab}
-               style={pageName === "/wishList" ? activeTabStyle : {}}
+              <div
+                className={styles.tab}
+                style={pageName === "/wishList" ? activeTabStyle : {}}
               >
                 Wish list
                 <span className={styles.counter} style={{ color: "#1a98ff" }}>
@@ -123,6 +139,36 @@ export default function Header() {
                 </span>
               </div>
             </Link>
+            <div
+              className={styles.tab}
+              style={showModalSearch ? { backgroundColor: "#191e25" } : {}}
+              onClick={handleShowModalSearch}
+            >
+              <FontAwesomeIcon
+                icon={!showModalSearch ? faMagnifyingGlass : faXmark}
+                className={styles.searchIcon}
+                style={showModalSearch ? { color: "white" } : {}}
+              />
+              {showModalSearch && (
+                <div className={styles.modalSearch}
+                onClick={(e) => e.stopPropagation()}
+                >
+                  <form>
+                    <div className={styles.searchBar}>
+                      <span className={styles.searchBarIcon}>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                      </span>
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        className={styles.searchInput}
+                      />
+                      <div className={styles.deleteBtn}>Delete</div>
+                    </div>
+                  </form>
+                </div>
+              )}
+            </div>
           </div>
         </nav>
       </header>
