@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
-  faCircleXmark,
   faMagnifyingGlass,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -10,12 +9,17 @@ import styles from "../styles/Header.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 export default function Header() {
   const [genreList, setGenreList] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const [showModalSearch, setShowModalSearch] = useState(false);
+  const modalSearchRef = useClickOutside(() => {
+    setShowModalSearch(false);
+    console.log('outside')
+  });
 
   const likedList = useSelector((state) => state.likedMovies.value);
   const likedCounter = likedList.length;
@@ -143,6 +147,7 @@ export default function Header() {
               className={styles.tab}
               style={showModalSearch ? { backgroundColor: "#191e25" } : {}}
               onClick={handleShowModalSearch}
+              ref={modalSearchRef}
             >
               <FontAwesomeIcon
                 icon={!showModalSearch ? faMagnifyingGlass : faXmark}

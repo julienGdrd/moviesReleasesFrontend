@@ -86,6 +86,7 @@
 }
 .searchIcon{
   font-size: 25px;
+  width: 25px;
 }
 .modalSearch{
   background-color: #191e25;
@@ -175,5 +176,5 @@
 }
 
 .counter{
-  margin-left: 10px;
+  padding-left: 10px;
 }
