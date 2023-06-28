@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { useClickOutside } from "../hooks/useClickOutside";
+import { Headers } from "node-fetch";
 
 export default function Header() {
   const [genreList, setGenreList] = useState([]);
@@ -18,8 +19,10 @@ export default function Header() {
   const [showModalSearch, setShowModalSearch] = useState(false);
   const modalSearchRef = useClickOutside(() => {
     setShowModalSearch(false);
-    console.log('outside')
+    console.log("outside");
   });
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const likedList = useSelector((state) => state.likedMovies.value);
   const likedCounter = likedList.length;
@@ -44,8 +47,21 @@ export default function Header() {
   }, []);
 
   const handleShowModalSearch = () => {
-      setShowModalSearch(!showModalSearch)
+    setShowModalSearch(!showModalSearch);
   };
+
+  // Search movies
+  const handleSearchMovies = () => {
+    router.push({
+      pathname: '/searchResult',
+      query: { keyword: searchQuery },
+    },
+    `/searchResult?query=${searchQuery}`
+    );
+    setSearchQuery('');
+    setShowModalSearch(false);
+  };
+
   // Genres list
   useEffect(() => {
     fetch("http://localhost:3000/genre")
@@ -155,10 +171,16 @@ export default function Header() {
                 style={showModalSearch ? { color: "white" } : {}}
               />
               {showModalSearch && (
-                <div className={styles.modalSearch}
-                onClick={(e) => e.stopPropagation()}
+                <div
+                  className={styles.modalSearch}
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <form>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSearchMovies();
+                    }}
+                  >
                     <div className={styles.searchBar}>
                       <span className={styles.searchBarIcon}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -167,8 +189,12 @@ export default function Header() {
                         type="text"
                         placeholder="Search"
                         className={styles.searchInput}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        value={searchQuery}
                       />
-                      <div className={styles.deleteBtn}>Delete</div>
+                      <div className={styles.deleteBtn}
+                      onClick={()=> setSearchQuery('')}
+                      >Delete</div>
                     </div>
                   </form>
                 </div>
