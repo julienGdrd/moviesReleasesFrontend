@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
@@ -52,13 +52,14 @@ export default function Header() {
 
   // Search movies
   const handleSearchMovies = () => {
-    router.push({
-      pathname: '/searchResult',
-      query: { keyword: searchQuery },
-    },
-    `/searchResult?query=${searchQuery}`
+    router.push(
+      {
+        pathname: "/searchResult",
+        query: { keyword: searchQuery },
+      },
+      `/searchResult?query=${searchQuery}`
     );
-    setSearchQuery('');
+    setSearchQuery("");
     setShowModalSearch(false);
   };
 
@@ -178,7 +179,7 @@ export default function Header() {
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
-                      handleSearchMovies();
+                      searchQuery.trim() !== "" && handleSearchMovies();
                     }}
                   >
                     <div className={styles.searchBar}>
@@ -186,15 +187,19 @@ export default function Header() {
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                       </span>
                       <input
+                        autoFocus
                         type="text"
                         placeholder="Search"
                         className={styles.searchInput}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         value={searchQuery}
                       />
-                      <div className={styles.deleteBtn}
-                      onClick={()=> setSearchQuery('')}
-                      >Delete</div>
+                      <div
+                        className={styles.deleteBtn}
+                        onClick={() => setSearchQuery("")}
+                      >
+                        Delete
+                      </div>
                     </div>
                   </form>
                 </div>
