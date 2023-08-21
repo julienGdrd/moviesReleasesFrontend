@@ -19,6 +19,7 @@ export default function Header() {
   const [showModalSearch, setShowModalSearch] = useState(false);
   const modalSearchRef = useClickOutside(() => {
     setShowModalSearch(false);
+    setSearchQuery("");
     console.log("outside");
   });
 
@@ -35,7 +36,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const position = window.pageYOffset;
+      const position = window.scrollY;
       setScrollPosition(position);
     };
 

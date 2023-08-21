@@ -2,9 +2,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 280px;
+  /* width: 280px; */
+  width: 100%;
   padding-bottom: 20px;
-  margin: 20px;
+  /* margin: 20px; */
   /* z-index: 1; */
   transition: 0.5s ease-in-out;
   background-color: #00050d;
